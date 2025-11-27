@@ -1,0 +1,30 @@
+// _variables.scss
+// Paleta de colores y variables globales
+$primary-color:   #3f2f24;  // Café oscuro elegante
+$secondary-color: #D2691E;  // Café chocolate
+$accent-color:    #FF6B35;  // Naranja vibrante
+$accent-light:    #FFA07A;  // Salmón suave
+$background-color:#FFF8F0;  // Beige muy claro
+$light-color:     #FFFFFF;  // Blanco
+$text-dark:       #2E2E2E;  // Texto oscuro
+$text-light:      #757575;  // Texto gris claro
+$success-color:   #27AE60;  // Verde 
+$border-radius:   12px;
+$box-shadow:      0 8px 25px rgba(0,0,0,0.1);
+$transition:      all 0.3s ease;
+
+// Variables CSS para compatibilidad 
+:root {
+  --primary-color: #{$primary-color};
+  --secondary-color: #{$secondary-color};
+  --accent-color: #{$accent-color};
+  --accent-light: #{$accent-light};
+  --background-color: #{$background-color};
+  --light-color: #{$light-color};
+  --text-dark: #{$text-dark};
+  --text-light: #{$text-light};
+  --success-color: #{$success-color};
+  --border-radius: #{$border-radius};
+  --box-shadow: #{$box-shadow};
+  --transition: #{$transition};
+}

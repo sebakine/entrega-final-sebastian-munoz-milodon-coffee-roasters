@@ -1,0 +1,690 @@
+// _layout.scss
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Header
+.header-elegante {
+  background: $background-color;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+  // Corrección para evitar conflictos con parallax o modals
+  transform: none !important;
+  position: relative;
+  z-index: 1030;
+}
+
+.container-hero {
+  background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+  padding: 0.1rem 0;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.1rem 0;
+
+  @include tablet {
+    justify-content: space-between;
+    gap: 1rem;
+  }
+}
+
+// Soporte al cliente
+.customer-support {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+  @include tablet {
+    display: none;
+  }
+
+  i {
+    font-size: 2.2rem;
+    color: $light-color;
+  }
+
+  .content-customer-support {
+    display: flex;
+    flex-direction: column;
+
+    .text {
+      font-size: 1.3rem;
+      color: $light-color;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    .number {
+      font-size: 1.5rem;
+      color: $light-color;
+      font-weight: 600;
+    }
+  }
+}
+
+// Logo Container
+.container-logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @include tablet {
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  @include phone {
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+  }
+
+  i {
+    font-size: 2.5rem;
+    color: $light-color;
+  }
+
+  .logo-img {
+    display: inline-block;
+    width: auto;
+    max-height: 10rem; // desktop
+    object-fit: contain;
+    vertical-align: middle;
+
+    @include tablet {
+      max-height: 6.8rem;
+    }
+    @include phone {
+      max-height: 6.0rem;
+    }
+  }
+
+  h1 a {
+    text-decoration: none;
+    color: $light-color;
+    font-size: 2.2rem;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+
+    @include tablet {
+      display: none;
+    }
+  }
+}
+
+// Usuario y Carrito
+.container-user {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  a {
+    font-size: 2.2rem;
+    color: $light-color;
+    transition: $transition;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      color: $accent-light;
+      transform: scale(1.1);
+    }
+  }
+
+  .shopping-cart-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    position: relative;
+    color: $light-color;
+
+    .content-shopping-cart {
+      display: flex;
+      flex-direction: column; 
+      color: $light-color;
+      
+      
+      @include tablet {
+        display: none;
+      }
+
+      .text {
+        font-size: 1.3rem;
+        font-weight: 500;
+        display: none; 
+      }
+
+      .number {
+        font-size: 1.4rem; 
+        font-weight: 600;
+        
+        
+        &.badge-style {
+            display: inline-block;
+            min-width: 2.2rem;
+            height: 2.2rem;
+            line-height: 2.2rem;
+            border-radius: 50%;
+            background: $accent-color;
+            color: $light-color;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            
+            @include tablet {
+                min-width: 2rem;
+                height: 2rem;
+                line-height: 2rem;
+                font-size: 1.1rem;
+            }
+        }
+      }
+    }
+    
+    
+    .content-shopping-cart {
+         display: flex;
+         flex-direction: column;
+         .number {
+             display: inline-block;
+             min-width: 2.2rem;
+             height: 2.2rem;
+             line-height: 2.2rem;
+             border-radius: 50%;
+             background: $accent-color;
+             color: $light-color;
+             text-align: center;
+             font-weight: 700;
+             font-size: 1.2rem;
+             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+             @include tablet {
+                min-width: 2rem;
+                height: 2rem;
+                line-height: 2rem;
+                font-size: 1.1rem;
+             }
+         }
+         .text { display: none; }
+    }
+  }
+}
+
+// Navbar
+.container-navbar {
+  background: linear-gradient(90deg, $light-color 0%, #F8F4F0 100%);
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  border-bottom: 1px solid $accent-color;
+  width: 100%;
+  transform: none !important; 
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+
+  &-toggle {
+    display: none;
+    color: $primary-color;
+    font-size: 2.8rem;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+
+    @include tablet {
+      display: block;
+    }
+  }
+}
+
+.menu {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include tablet {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: $light-color;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1rem;
+    box-shadow: $box-shadow;
+    border-radius: 0 0 $border-radius $border-radius;
+    
+    &.active {
+      display: flex;
+    }
+  }
+
+  li {
+    position: relative;
+  }
+
+  a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: $primary-color;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0.8rem 1.2rem;
+    border-radius: $border-radius;
+    transition: $transition;
+    position: relative;
+
+    &:hover {
+      color: $accent-color;
+      background-color: rgba(134, 106, 96, 0.1);
+
+      &::after {
+        width: 80%;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: $accent-color;
+      transition: $transition;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+// Buscador
+.search-form {
+  display: flex;
+  align-items: center;
+  background: $light-color;
+  border-radius: 2.5rem;
+  padding: 0.5rem;
+  box-shadow: $box-shadow;
+  border: 2px solid $accent-light;
+
+  @include tablet {
+    display: none;
+  }
+
+  input {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.4rem;
+    width: 25rem;
+    color: $text-dark;
+  }
+
+  .btn-search {
+    background: $accent-color;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: $transition;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: $secondary-color;
+      transform: scale(1.05);
+    }
+
+    i {
+      font-size: 1.6rem;
+      color: $light-color;
+    }
+  }
+}
+
+// Banners (Parallax)
+.banner,
+.banner-interno {
+  transition: transform 0.1s ease-out;
+  will-change: transform;
+  position: relative;
+  overflow: hidden;
+
+  // Pseudo-elemento común
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+  
+  .content-banner {
+    position: relative;
+    z-index: 2;
+    
+    @include tablet {
+      text-align: center;
+      margin: 0 auto;
+    }
+  }
+}
+
+// Banner Home
+.banner {
+  background: url('../img/primer-plano-de-barista-haciendo-arte-latte.jpg') center/cover no-repeat;
+  height: 45vh;
+  display: flex;
+  align-items: center;
+
+  @include tablet {
+    justify-content: center;
+    height: 35vh;
+  }
+  
+  &::before {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.85) 0%, rgba(210, 105, 30, 0.8) 100%);
+  }
+
+  .content-banner {
+    max-width: 65rem;
+    padding: 0 3rem;
+
+    @include tablet {
+      padding: 6rem 0;
+    }
+    @include phone {
+      padding: 4rem 0;
+    }
+
+    p {
+      color: $accent-light;
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    h2 {
+      color: $light-color;
+      font-size: 4.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 2.5rem;
+      font-family: 'Playfair Display', serif;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+
+      @include laptop { font-size: 3.8rem; }
+      @include tablet { font-size: 3.2rem; }
+      @include phone  { font-size: 2.8rem; }
+    }
+
+    a {
+      display: inline-block;
+      padding: 1.5rem 3.5rem;
+      background: $accent-color;
+      color: $light-color;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 600;
+      border-radius: $border-radius;
+      transition: $transition;
+      font-size: 1.4rem;
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+
+      &:hover {
+        background: $light-color;
+        color: $accent-color;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+      }
+    }
+  }
+}
+
+// Banner Interno
+.banner-interno {
+  background: transparent; // Imagen controlada en el HTML o específica
+  height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: $light-color;
+  margin-bottom: 3rem;
+
+  @include tablet { height: 22vh; }
+  @include phone  { height: 18vh; }
+
+  &::before {
+    background: linear-gradient(135deg, rgba(63, 47, 36, 0.85) 0%, rgba(210, 105, 30, 0.8) 100%);
+  }
+
+  .content-banner {
+    h1, h2 {
+      font-size: 4.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      font-family: 'Playfair Display', serif;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    p {
+      font-size: 1.8rem;
+      opacity: 0.9;
+      font-weight: 400;
+    }
+  }
+}
+
+// Alerta Promoción
+.alert-promocion {
+  background: linear-gradient(135deg, $accent-color 0%, $secondary-color 100%) !important;
+  color: $light-color !important;
+  border: none !important;
+  border-radius: 0 !important;
+  font-weight: 500;
+  transform: none !important;
+  position: relative;
+  z-index: 1030;
+
+  strong { color: $light-color; }
+  .btn-close { filter: brightness(0) invert(1); }
+}
+
+// Footer
+.footer {
+  background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+  color: $light-color;
+  padding: 5rem 0 2rem;
+
+  .container-footer {
+    max-width: 120rem;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .menu-footer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 4rem;
+    margin-bottom: 4rem;
+
+    @include laptop { grid-template-columns: repeat(2, 1fr); }
+    @include phone  { grid-template-columns: 1fr; }
+  }
+
+  .title-footer {
+    font-weight: 700;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    color: $accent-light;
+    font-family: 'Playfair Display', serif;
+  }
+
+  // Grupos de enlaces
+  .contact-info, .information, .my-account, .newsletter {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      list-style: none;
+
+      li {
+        font-size: 1.4rem;
+        color: $light-color;
+        opacity: 0.9;
+        line-height: 1.6;
+
+        a {
+          text-decoration: none;
+          color: $light-color;
+          transition: $transition;
+
+          &:hover {
+            color: $accent-light;
+            padding-left: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  // Redes Sociales
+  .social-icons {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+
+    a {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: $transition;
+      background: rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+
+      &:hover {
+        background: $accent-color;
+        transform: translateY(-3px);
+      }
+
+      i {
+        color: $light-color;
+        font-size: 1.6rem;
+      }
+    }
+  }
+
+  // Newsletter Input
+  .newsletter {
+    .content {
+        // En tablet y mobile centrar texto
+        @include tablet { text-align: center; }
+
+        p {
+          font-size: 1.4rem;
+          color: $light-color;
+          opacity: 0.9;
+          line-height: 1.6;
+          margin-bottom: 2rem;
+        }
+
+        input {
+          width: 100%;
+          padding: 1.2rem;
+          border: none;
+          border-bottom: 2px solid $accent-light;
+          background: transparent;
+          color: $light-color;
+          font-size: 1.4rem;
+          margin-bottom: 2rem;
+          outline: none;
+          transition: $transition;
+
+          &:focus { border-bottom-color: $light-color; }
+          &::placeholder { color: rgba(255,255,255,0.6); }
+        }
+
+        button {
+          width: 100%;
+          padding: 1.4rem;
+          background: $accent-color;
+          color: $light-color;
+          border: none;
+          border-radius: $border-radius;
+          font-size: 1.4rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: $transition;
+
+          &:hover {
+            background: $accent-light;
+            transform: translateY(-2px);
+          }
+        }
+    }
+  }
+
+  // Copyright
+  .copyright {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    flex-wrap: wrap;
+    gap: 2rem;
+
+    @include tablet {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    p {
+      font-size: 1.4rem;
+      color: $light-color;
+      opacity: 0.8;
+    }
+
+    img {
+      max-width: 200px;
+      height: auto;
+    }
+  }
+}
+
+// Estilos Globales Mobile Helpers
+h1, h2, h3, h4, h5, h6 {
+  @include tablet { text-align: center; }
+}
+
+p {
+  @include tablet { text-align: center; }
+}

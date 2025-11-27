@@ -1,0 +1,25 @@
+{
+  "name": "milodon-coffee-roasters",
+  "version": "1.0.0",
+  "description": "E-commerce de café de especialidad",
+  "main": "index.html",
+  "scripts": {
+    "scss:watch": "sass --watch scss:css",
+    "scss:build": "sass scss:css --style compressed",
+    "dev": "sass --watch scss:css & python -m http.server 8000"
+  },
+  "devDependencies": {
+    "sass": "^1.66.1"
+  },
+  "keywords": [
+    "cafe",
+    "ecommerce",
+    "bootstrap",
+    "sass"
+  ],
+  "author": "sebakine",
+  "license": "MIT",
+  "dependencies": {
+    "@lmstudio/sdk": "^1.5.0"
+  }
+}

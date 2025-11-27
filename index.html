@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Milodón Coffee Roasters - Café de Especialidad</title>
+    <link rel="icon" type="image/png" href="./img/logosalemgoldo2.png">
+    
+    <!-- DNS Prefetch y Preconnect para los recursos externos -->
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Preload del banner principal -->
+    <link rel="preload" as="image" href="./img/primer-plano-de-barista-haciendo-arte-latte.webp" fetchpriority="high" />
+    
+    <!-- CSS Bootstrap 5  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="./css/main.css" />
+    
+    <!-- Fuentes con para mejor rendimiento -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" /></noscript>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" /></noscript>
+</head>
+<body>
+    <!-- HEADER y NAV menú de páginas aún no estan todas funcionales falta completar esta sección -->
+    <header class="header-elegante">
+        <div class="container-hero">
+            <div class="container hero">
+                <div class="customer-support">
+                    <i class="fa-solid fa-headset" aria-hidden="true"></i>
+                    <div class="content-customer-support">
+                        <span class="text">Soporte al Cliente</span>
+                        <span class="number">+56 9 1234 5678</span>
+                    </div>
+                </div>
+
+                <div class="container-logo">
+                    <img src="./img/gatosgoldoscafelogo.png" alt="Milodón Coffee Roasters" class="logo-img" />
+                    <h1 class="logo"><a href="index.html">Milodón Coffee Roasters</a></h1>
+                </div>
+
+                <div class="container-user">
+                    <a href="#" aria-label="Acceder a mi cuenta">
+                        <i class="fa-solid fa-user" aria-hidden="true"></i>
+                    </a>
+                    <a href="#" class="shopping-cart-link position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-label="Ver carrito de compras (0 items)" role="button">
+                        <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+                        <div class="content-shopping-cart">
+                            <span class="text"></span>
+                            <span class="number" id="cart-item-count">0</span>
+                        </div>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-badge" style="display: none; transform: translate(-50%, -50%);">
+                            0
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-navbar">
+            <nav class="navbar container">
+                <button class="navbar-toggle" aria-label="Abrir menú de navegación" aria-controls="menu-principal" aria-expanded="false">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
+                
+                <ul class="menu" id="menu-principal" role="menubar">
+                    <li role="none"><a href="index.html" role="menuitem">Inicio</a></li>
+                    <li role="none"><a href="./pages/about.html" role="menuitem">Nosotros</a></li>
+                    <li role="none"><a href="./pages/blog.html" role="menuitem">Blog</a></li>
+                    <li role="none"><a href="./pages/contact.html" role="menuitem">Contacto</a></li>
+                </ul>
+
+                <form class="search-form" role="search">
+                    <label for="search-input" class="visually-hidden">Buscar café</label>
+                    <input type="search" id="search-input" placeholder="Buscar café..." />
+                    <button class="btn-search" type="submit" aria-label="Buscar">
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    </button>
+                </form>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Alerta de Promoción Especial con un 15% de descuento en la primera compra-->
+    <div class="alert alert-warning alert-dismissible fade show mb-0 text-center alert-promocion" role="alert">
+    <strong>🎉 ¡Oferta Especial!</strong> Envío gratis en compras superiores a $30.000 | Descuento del 15% en tu primera compra con el código: <strong>CAFE15</strong>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+
+<!-- MAIN CONTENT hero banner productos destacados se han quitado 2 secciones y se ha movido la sección de condiciones al final del main antes del footer sentia que no tenian relacion al comienzo de la pagina visualmente hablando-->
+<!-- Comienzo del main -->
+    <main class="main-content">
+
+        <section class="banner" aria-labelledby="banner-heading">
+            <div class="content-banner">
+                <p>Café de especialidad recién tostado</p>
+                <h2 id="banner-heading">100% Natural Café Fresco Artesanal</h2>
+                <a href="#">Descubrir Ahora</a>
+            </div>
+        </section>
+
+        <section class="container top-products" aria-labelledby="products-heading">
+            <h2 class="heading-1" id="products-heading">Cafés Destacados</h2>
+
+            <div class="container-options" role="tablist" aria-label="Filtrar cafés destacados">
+                <button role="tab" aria-selected="true" class="active">Más Populares</button>
+                <button role="tab" aria-selected="false">Novedades</button>
+                <button role="tab" aria-selected="false">Mejor Calificados</button>
+            </div>
+
+            <div class="container-products">
+                <article class="card-product">
+                    <div class="container-img">
+                        <img src="./img/cafe-irish.webp" alt="Bolsa de 250g de Café Irish Blend." width="800" height="800" loading="lazy" decoding="async" fetchpriority="high" />
+                        <span class="badge bg-danger position-absolute top-0 start-0 m-2">-15%</span>
+                        <span class="badge bg-success position-absolute top-0 end-0 m-2">Nuevo</span>
+                        <div class="button-group">
+                            <button type="button" class="btn-quick-view" data-bs-toggle="modal" data-bs-target="#quickViewModal" data-product="Café Irish Blend" data-price="12500" data-image="./img/cafe-irish.webp" data-bs-tooltip="tooltip" data-bs-placement="top" title="Vista rápida" aria-label="Vista rápida">
+                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" data-bs-tooltip="tooltip" data-bs-placement="top" title="Añadir a favoritos" aria-label="Añadir a la lista de deseos">
+                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" data-bs-tooltip="tooltip" data-bs-placement="top" title="Comparar producto" aria-label="Comparar producto">
+                                <i class="fa-solid fa-code-compare" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="content-card-product">
+                        <div class="stars" aria-label="Calificación: 4 de 5 estrellas">
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" aria-hidden="true"></i>
+                        </div>
+                        <h3><a href="#">Café Irish Blend</a></h3>
+                        <div class="stock-info mb-2">
+                            <small class="text-muted">Stock disponible:</small>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <button type="button" class="add-cart btn-add-to-cart" data-product="Café Irish Blend" data-price="12500" data-bs-tooltip="tooltip" data-bs-placement="top" title="Añadir al carrito" aria-label="Añadir al carro, Café Irish Blend">
+                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+                        </button>
+                        <p class="price">
+                            $12.500 
+                            <s>$14.700</s>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="card-product">
+                    <div class="container-img">
+                        <img src="./img/dos-tazas-de-cafe-expres-debajo-de-la-cafetera.webp" alt="Dos tazas de espresso recién hecho." width="800" height="800" loading="lazy" decoding="async" />
+                        <span class="badge bg-danger position-absolute top-0 start-0 m-2">-20%</span>
+                        <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">Destacado</span>
+                        <div class="button-group">
+                            <button type="button" class="btn-quick-view" data-bs-toggle="modal" data-bs-target="#quickViewModal" data-product="Café English Roast" data-price="13200" data-image="./img/dos-tazas-de-cafe-expres-debajo-de-la-cafetera.webp" data-bs-tooltip="tooltip" data-bs-placement="top" title="Vista rápida" aria-label="Vista rápida">
+                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" data-bs-tooltip="tooltip" data-bs-placement="top" title="Añadir a favoritos" aria-label="Añadir a la lista de deseos">
+                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" data-bs-tooltip="tooltip" data-bs-placement="top" title="Comparar producto" aria-label="Comparar producto">
+                                <i class="fa-solid fa-code-compare" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="content-card-product">
+                        <div class="stars" aria-label="Calificación: 3 de 5 estrellas">
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" aria-hidden="true"></i>
+                        </div>
+                        <h3><a href="#">Café English Roast</a></h3>
+                        <div class="stock-info mb-2">
+                            <small class="text-muted">Stock disponible:</small>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <button type="button" class="add-cart btn-add-to-cart" data-product="Café English Roast" data-price="13200" data-bs-tooltip="tooltip" data-bs-placement="top" title="Añadir al carrito" aria-label="Añadir al carro, Café English Roast">
+                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+                        </button>
+                        <p class="price">$13.200 <s>$16.500</s></p>
+                    </div>
+                </article>
+
+                <article class="card-product">
+                    <div class="container-img">
+                        <img src="./img/primer-plano-de-barista-haciendo-arte-latte.webp" alt="Barista profesional creando un complejo arte latte en un capuccino." width="800" height="800" loading="lazy" decoding="async" />
+                        <span class="badge bg-primary position-absolute top-0 end-0 m-2">Más Vendido</span>
+                        <div class="button-group">
+                            <button type="button" class="btn-quick-view" data-bs-toggle="modal" data-bs-target="#quickViewModal" data-product="Café Australian Blend" data-price="15800" data-image="./img/primer-plano-de-barista-haciendo-arte-latte.jpg" data-bs-tooltip="tooltip" data-bs-placement="top" title="Vista rápida" aria-label="Vista rápida">
+                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" data-bs-tooltip="tooltip" data-bs-placement="top" title="Añadir a favoritos" aria-label="Añadir a la lista de deseos">
+                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" data-bs-tooltip="tooltip" data-bs-placement="top" title="Comparar producto" aria-label="Comparar producto">
+                                <i class="fa-solid fa-code-compare" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="content-card-product">
+                        <div class="stars" aria-label="Calificación: 5 de 5 estrellas">
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                        </div>
+                        <h3><a href="#">Café Australian Blend</a></h3>
+                        <div class="stock-info mb-2">
+                            <small class="text-muted">Stock disponible:</small>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <button type="button" class="add-cart btn-add-to-cart" data-product="Café Australian Blend" data-price="15800" data-bs-tooltip="tooltip" data-bs-placement="top" title="Añadir al carrito" aria-label="Añadir al carro, Café Australian Blend">
+                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+                        </button>
+                        <p class="price">$15.800</p>
+                    </div>
+                </article>
+
+                <article class="card-product">
+                    <div class="container-img">
+                        <img src="./img/primer-plano-de-cafe-capuchino-con-latte-de-arte-en-la-mesa-de-madera.webp" alt="Taza de capuccino con arte latte de una hoja sobre una mesa de madera." width="800" height="800" loading="lazy" decoding="async" />
+                        <span class="badge bg-info position-absolute top-0 end-0 m-2">Popular</span>
+                        <div class="button-group">
+                            <button type="button" class="btn-quick-view" data-bs-toggle="modal" data-bs-target="#quickViewModal" data-product="Café Cold Brew" data-price="9900" data-image="./img/primer-plano-de-cafe-capuchino-con-latte-de-arte-en-la-mesa-de-madera.webp data-bs-tooltip="tooltip" data-bs-placement="top" title="Vista rápida" aria-label="Vista rápida">
+                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" data-bs-tooltip="tooltip" data-bs-placement="top" title="Añadir a favoritos" aria-label="Añadir a la lista de deseos">
+                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" data-bs-tooltip="tooltip" data-bs-placement="top" title="Comparar producto" aria-label="Comparar producto">
+                                <i class="fa-solid fa-code-compare" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="content-card-product">
+                        <div class="stars" aria-label="Calificación: 4 de 5 estrellas">
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-solid fa-star" aria-hidden="true"></i>
+                            <i class="fa-regular fa-star" aria-hidden="true"></i>
+                        </div>
+                        <h3><a href="#">Café Cold Brew</a></h3>
+                        <div class="stock-info mb-2">
+                            <small class="text-muted">Stock disponible:</small>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <button type="button" class="add-cart btn-add-to-cart" data-product="Café Cold Brew" data-price="9900" data-bs-tooltip="tooltip" data-bs-placement="top" title="Añadir al carrito" aria-label="Añadir al carro, Café Cold Brew">
+                            <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+                        </button>
+                        <p class="price">$9.900</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="container py-5" role="region" aria-label="Galería de imágenes">
+            <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                    <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="./img/vista-superior-de-granos-de-cafe-con-accesorios.webp" class="d-block w-100" alt="Vista cenital de granos de café tostado, una cafetera francesa y una cuchara de madera." loading="eager" decoding="async">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="./img/vista-superior-de-accesorios-de-cafe-sobre-la-mesa.webp" class="d-block w-100" alt="Accesorios para preparar café, incluyendo un filtro de goteo, sobre una mesa oscura." loading="lazy" decoding="async">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="./img/el-barista-diligente-esta-preparando-un-cafe-con-leche-fresco-para-los-clientes-para-tomar-un-cafe-en-la-cafeteria.webp" class="d-block w-100" alt="Un barista vierte leche en una taza para crear arte latte." loading="lazy" decoding="async">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="./img/taza-de-cafe-con-leche.webp" class="d-block w-100" alt="Taza de café con leche con un corazón de arte latte." loading="lazy" decoding="async">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="./img/cafe-oscuro-en-un-tazon-sobre-una-mesa-marron.webp" class="d-block w-100" alt="Un tazón de cerámica lleno de granos de café tostado oscuro." loading="lazy" decoding="async">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="container specials" aria-labelledby="specials-heading">
+            <h2 class="heading-1" id="specials-heading">Ofertas Especiales</h2>
+
+            <div class="container-products">
+
+        
+<!-- producto 1 - irish blend -->
+
+<article class="card-product">
+    <div class="container-img">
+        <img src="./img/cafe-irish.webp" alt="Bolsa de 250g de Café Irish Blend." loading="lazy" decoding="async" width="800" height="800"/>
+        <span class="badge bg-danger position-absolute top-0 start-0 m-2">-15%</span>
+        <span class="badge bg-success position-absolute top-0 end-0 m-2">Oferta</span>
+
+        <div class="button-group">
+            <button type="button" class="btn-quick-view" 
+                data-bs-toggle="modal" data-bs-target="#quickViewModal" 
+                data-product="Café Irish Blend" data-price="12500" 
+                data-image="./img/cafe-irish.webp" title="Vista rápida">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+            <button type="button" title="Añadir a favoritos">
+                <i class="fa-regular fa-heart"></i>
+            </button>
+            <button type="button" title="Comparar producto">
+                <i class="fa-solid fa-code-compare"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="content-card-product">
+        <div class="stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            <i class="fa-regular fa-star"></i>
+        </div>
+
+        <h3><a href="#">Café Irish Blend</a></h3>
+
+        <div class="stock-info mb-2">
+            <small class="text-muted">Stock disponible:</small>
+            <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-success" style="width: 75%"></div>
+            </div>
+        </div>
+
+        <button type="button" class="add-cart btn-add-to-cart" 
+            data-product="Café Irish Blend" data-price="12500">
+            <i class="fa-solid fa-basket-shopping"></i>
+        </button>
+
+        <p class="price">$12.500 <s>$14.700</s></p>
+    </div>
+</article>
+
+
+<!-- producto 2 - english roast -->
+<article class="card-product">
+    <div class="container-img">
+        <img src="./img/primer-plano-de-una-taza-de-cafe-con-granos-de-cafe-en-un-saco-y-platillo-leche-canela-seca-sobre-salvamanteles-y-superficie-blanca-vertical.webp"
+        alt="Taza de café rodeada de granos, canela y un saco de arpillera."
+        loading="lazy" decoding="async" width="800" height="800"/>
+        <span class="badge bg-danger position-absolute top-0 start-0 m-2">-25%</span>
+        <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">Destacado</span>
+
+        <div class="button-group">
+            <button type="button" class="btn-quick-view" 
+                data-bs-toggle="modal" data-bs-target="#quickViewModal" 
+                data-product="Café English Roast" data-price="13200"
+                data-image="./img/primer-plano-de-una-taza-de-cafe-con-granos-de-cafe-en-un-saco-y-platillo-leche-canela-seca-sobre-salvamanteles-y-superficie-blanca-vertical.webp 
+                title="Vista rápida">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+            <button type="button" title="Añadir a favoritos">
+                <i class="fa-regular fa-heart"></i>
+            </button>
+            <button type="button" title="Comparar producto">
+                <i class="fa-solid fa-code-compare"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="content-card-product">
+        <div class="stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+            <i class="fa-regular fa-star"></i>
+        </div>
+
+        <h3><a href="#">Café English Roast</a></h3>
+
+        <div class="stock-info mb-2">
+            <small class="text-muted">Stock disponible:</small>
+            <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-warning" style="width: 45%"></div>
+            </div>
+        </div>
+
+        <button type="button" class="add-cart btn-add-to-cart" 
+            data-product="Café English Roast" data-price="13200">
+            <i class="fa-solid fa-basket-shopping"></i>
+        </button>
+
+        <p class="price">$13.200 <s>$17.600</s></p>
+    </div>
+</article>
+
+
+<!-- producto 3 - viena style -->
+
+<article class="card-product">
+    <div class="container-img">
+        <img src="./img/concepto-de-servicio-de-preparacion-de-cafe-barista-cafe.webp"
+        alt="Barista sirviendo café desde una jarra de goteo." 
+        loading="lazy" decoding="async" width="800" height="800"/>
+        <span class="badge bg-danger position-absolute top-0 start-0 m-2">-30%</span>
+        <span class="badge bg-primary position-absolute top-0 end-0 m-2">Mejor Oferta</span>
+
+        <div class="button-group">
+            <button type="button" class="btn-quick-view"
+                data-bs-toggle="modal" data-bs-target="#quickViewModal"
+                data-product="Café Viena Style" data-price="14500"
+                data-image="./img/concepto-de-servicio-de-preparacion-de-cafe-barista-cafe.webp"
+                title="Vista rápida">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+            <button type="button" title="Añadir a favoritos">
+                <i class="fa-regular fa-heart"></i>
+            </button>
+            <button type="button" title="Comparar producto">
+                <i class="fa-solid fa-code-compare"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="content-card-product">
+        <div class="stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+        </div>
+
+        <h3><a href="#">Café Viena Style</a></h3>
+
+        <div class="stock-info mb-2">
+            <small class="text-muted">Stock disponible:</small>
+            <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-success" style="width: 60%"></div>
+            </div>
+        </div>
+
+        <button type="button" class="add-cart btn-add-to-cart"
+            data-product="Café Viena Style" data-price="14500">
+            <i class="fa-solid fa-basket-shopping"></i>
+        </button>
+
+        <p class="price">$14.500 <s>$20.700</s></p>
+    </div>
+</article>
+
+
+<!-- producto 4 - liqueurs -->
+
+<article class="card-product">
+    <div class="container-img">
+        <img src="./img/primer-plano-de-cafe-capuchino-con-latte-de-arte-en-la-mesa-de-madera.webp"
+        alt="Taza de capuccino con arte latte." 
+        loading="lazy" decoding="async" width="800" height="800"/>
+        <span class="badge bg-info position-absolute top-0 end-0 m-2">Popular</span>
+
+        <div class="button-group">
+            <button type="button" class="btn-quick-view"
+                data-bs-toggle="modal" data-bs-target="#quickViewModal"
+                data-product="Café Liqueurs" data-price="16800"
+                data-image="./img/primer-plano-de-cafe-capuchino-con-latte-de-arte-en-la-mesa-de-madera.webp"
+                title="Vista rápida">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+            <button type="button" title="Añadir a favoritos">
+                <i class="fa-regular fa-heart"></i>
+            </button>
+            <button type="button" title="Comparar producto">
+                <i class="fa-solid fa-code-compare"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="content-card-product">
+        <div class="stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            <i class="fa-regular fa-star"></i>
+        </div>
+
+        <h3><a href="#">Café Liqueurs</a></h3>
+
+        <div class="stock-info mb-2">
+            <small class="text-muted">Stock disponible:</small>
+            <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-success" style="width: 85%"></div>
+            </div>
+        </div>
+
+        <button type="button" class="add-cart btn-add-to-cart"
+            data-product="Café Liqueurs" data-price="16800">
+            <i class="fa-solid fa-basket-shopping"></i>
+        </button>
+
+        <p class="price">$16.800</p>
+    </div>
+</article>
+
+
+    </div>
+</section>
+
+    </main>
+
+    <section class="container container-features" aria-label="Beneficios de Milodón Coffee">
+        <div class="card-feature">
+            <i class="fa-solid fa-truck" aria-hidden="true"></i>
+            <div class="feature-content">
+                <span>Envío gratuito</span>
+                <p>En pedidos superiores a $30.000</p>
+            </div>
+        </div>
+        <div class="card-feature">
+            <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+            <div class="feature-content">
+                <span>Devoluciones</span>
+                <p>30 días de garantía</p>
+            </div>
+        </div>
+        <div class="card-feature">
+            <i class="fa-solid fa-credit-card" aria-hidden="true"></i>
+            <div class="feature-content">
+                <span>Pago seguro</span>
+                <p>100% protegido</p>
+            </div>
+        </div>
+        <div class="card-feature">
+            <i class="fa-solid fa-headset" aria-hidden="true"></i>
+            <div class="feature-content">
+                <span>Soporte 24/7</span>
+                <p>Llamanos cualquier hora</p>
+            </div>
+        </div>
+    </section>
+<!-- Footer -->
+    <footer class="footer">
+        <div class="container container-footer">
+            <div class="menu-footer">
+                <div class="contact-info">
+                    <h4 class="title-footer">Información de Contacto</h4>
+                    <address>
+                        <ul>
+                            <li>Dirección: Av. Libertad 123, Viña del Mar, Chile</li>
+                            <li>Teléfono: +56 9 1234 5678</li>
+                            <li>Email: hola@milodoncoffee.cl</li>
+                            <li>Horario: Lunes a Sábado 8:00 - 20:00</li>
+                        </ul>
+                    </address>
+                     
+                    <div class="social-icons">
+                        <a href="#" class="facebook" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+                        <a href="#" class="twitter" aria-label="Twitter"><i class="fa-brands fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" class="youtube" aria-label="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
+                        <a href="#" class="instagram" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+
+                <div class="information">
+                    <h4 class="title-footer">Información</h4>
+                    <ul>
+                        <li><a href="./pages/about.html">Acerca de Nosotros</a></li>
+                        <li><a href="#">Información de Delivery</a></li>
+                        <li><a href="#">Políticas de Privacidad</a></li>
+                        <li><a href="#">Términos y condiciones</a></li>
+                        <li><a href="./pages/contact.html">Contáctanos</a></li>
+                    </ul>
+                </div>
+
+                <div class="my-account">
+                    <h4 class="title-footer">Mi cuenta</h4>
+                    <ul>
+                        <li><a href="#">Mi cuenta</a></li>
+                        <li><a href="#">Historial de órdenes</a></li>
+                        <li><a href="#">Lista de deseos</a></li>
+                        <li><a href="#">Boletín</a></li>
+                        <li><a href="#">Reembolsos</a></li>
+                    </ul>
+                </div>
+
+                <div class="newsletter">
+                    <h4 class="title-footer">Boletín informativo</h4>
+                    <form class="content" action="#" method="post">
+                        <p>
+                            Suscríbete a nuestros boletines ahora y mantente al día con nuevas colecciones y ofertas exclusivas.
+                        </p>
+                        <label for="newsletter-email" class="visually-hidden">Ingresa tu correo aquí...</label>
+                        <input type="email" id="newsletter-email" placeholder="Ingresa tu correo aquí..." required>
+                        <button type="submit">Suscríbete</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>
+                    Desarrollado por Milodón Coffee Roasters &copy; 2025
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contenedor del toast acción de añadir al carrito de forma exitsa conteo funcional al añadir productos check funciona al menos-->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+        <div id="cartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success text-white">
+                <i class="fa-solid fa-check-circle me-2"></i>
+                <strong class="me-auto">Producto añadido</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+            </div>
+            <div class="toast-body">
+                <span id="toast-message">Producto añadido al carrito exitosamente</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Vista Rápida o quick view o vista rapida de productos-->
+    <div class="modal fade" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="quickViewModalLabel">Vista Rápida</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img id="quick-view-image" src="" alt="Producto" class="img-fluid rounded" style="max-height: 400px; object-fit: cover; width: 100%;">
+                        </div>
+                        <div class="col-md-6">
+                            <h3 id="quick-view-title" class="mb-3"></h3>
+                            <div class="stars mb-3" id="quick-view-stars">
+                                <i class="fa-solid fa-star text-warning"></i>
+                                <i class="fa-solid fa-star text-warning"></i>
+                                <i class="fa-solid fa-star text-warning"></i>
+                                <i class="fa-solid fa-star text-warning"></i>
+                                <i class="fa-regular fa-star text-warning"></i>
+                            </div>
+                            <p class="h4 text-primary mb-3" id="quick-view-price"></p>
+                            <p class="text-muted mb-4">Disfruta de nuestro café de especialidad, cuidadosamente seleccionado y tostado para ofrecerte la mejor experiencia de sabor. Este blend único combina notas aromáticas que deleitarán tu paladar.</p>
+                            <div class="mb-4">
+                                <label class="form-label">Cantidad:</label>
+                                <div class="input-group" style="max-width: 150px;">
+                                    <button class="btn btn-outline-secondary" type="button" id="decrease-qty">-</button>
+                                    <input type="number" class="form-control text-center" value="1" min="1" id="product-qty">
+                                    <button class="btn btn-outline-secondary" type="button" id="increase-qty">+</button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-lg w-100 mb-2" id="quick-view-add-cart">
+                                <i class="fa-solid fa-basket-shopping me-2"></i>Añadir al Carrito
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary w-100">
+                                <i class="fa-regular fa-heart me-2"></i>Añadir a Favoritos
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Offcanvas del Carrito -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title" id="cartOffcanvasLabel">
+                <i class="fa-solid fa-basket-shopping me-2"></i>Mi Carrito
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="cart-items">
+                <div class="text-center py-5">
+                    <i class="fa-solid fa-basket-shopping fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">Tu carrito está vacío compre algo necesito Churu</p>
+                    <a href="#" class="btn btn-primary" data-bs-dismiss="offcanvas">Seguir Comprando</a>
+                </div>
+            </div>
+        </div>
+        <div class="offcanvas-footer border-top p-3" id="cart-footer" style="display: none;">
+            <div class="d-flex justify-content-between mb-3">
+                <strong>Total:</strong>
+                <strong class="text-primary" id="cart-total">$0</strong>
+            </div>
+            <button type="button" class="btn btn-primary w-100 mb-2">Proceder al Checkout</button>
+            <button type="button" class="btn btn-outline-secondary w-100" data-bs-dismiss="offcanvas">Seguir Comprando</button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS link de javascript comienza el script creado con tutoriales de youtube -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    
+    <script src="./js/cart.js"></script>
+    <script src="./js/main.js"></script>
+    
+    <script>
+        // Menú móvil toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbarToggle = document.querySelector('.navbar-toggle');
+            const menu = document.querySelector('.menu');
+            
+            if (navbarToggle && menu) {
+                navbarToggle.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    menu.classList.toggle('active');
+                });
+            }
+            
+            // Tabs functionality
+            const tabButtons = document.querySelectorAll('.container-options button[role="tab"]');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-selected', 'false');
+                    });
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
+                });
+            });
+        });
+    </script>
+
+
+
+    <script src="./js/main.js"></script>
+</body>
+</html>

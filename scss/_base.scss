@@ -1,0 +1,92 @@
+// _base.scss
+@use 'variables' as *;
+
+// Reset global y estilos base
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%; // 1rem = 10px
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  color: $text-dark;
+  background-color: $background-color;
+  font-size: 1.6rem;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+
+  // Modificador específico usando anidamiento
+  &.top-products,
+  &.specials {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+// Utilidades genéricas
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.heading-1 {
+  text-align: center;
+  font-weight: 600;
+  font-size: 3.5rem;
+  margin-bottom: 4rem;
+  color: $primary-color;
+  font-family: 'Playfair Display', serif;
+}
+
+// Mejoras de accesibilidad
+a,
+button,
+input {
+  &:focus-visible {
+    outline: 2px solid $accent-color;
+    outline-offset: 2px;
+  }
+}
+
+// Animaciones
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Aplicación de animación usando selector múltiple
+.card-product,
+.card-blog,
+.card-feature,
+.card-category {
+  animation: fadeInUp 0.6s ease-out;
+}

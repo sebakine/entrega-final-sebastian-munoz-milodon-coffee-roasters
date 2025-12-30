@@ -1,0 +1,454 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --------------------------------------
+// 1. IAM & SECURITY DOMAIN
+// --------------------------------------
+
+enum UserRole {
+  CONSUMER      // Comprador Final
+  ROASTER       // Vendedor B2B/B2C
+  CAFE          // Comprador B2B
+  SUPPLIER      // Vendedor de Insumos/Maquinaria
+  BARISTA       // Profesional buscando empleo/cursos
+  ADMIN         // Super Admin CoffeeLink
+  STAFF         // Empleados internos
+}
+
+model User {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  passwordHash    String
+  
+  firstName       String?
+  lastName        String?
+  role            UserRole  @default(CONSUMER)
+  
+  isEmailVerified Boolean   @default(false)
+  isActive        Boolean   @default(true)
+  
+  // Security
+  refreshToken    String?   // Hashed refresh token
+  twoFactorSecret String?
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  profile         Profile?
+  businessProfile BusinessProfile? // NEW: Separate business data
+  addresses       Address[]
+  
+  // Market Relations
+  orders          Order[]
+  cart            Cart?
+  reviews         Review[]
+  
+  // Academy Relations
+  enrollments     Enrollment[]
+  certificates    Certificate[]
+
+  // Job Relations
+  jobApplications JobApplication[]
+
+  // Vendor Relations (If User is a Seller)
+  products        Product[] 
+  jobPosts        JobPost[]
+  events          Event[]
+  greenMetrics    GreenMetric[]
+
+  @@map("users")
+}
+
+// --------------------------------------
+// 1.5. B2B / BUSINESS LOGIC
+// --------------------------------------
+
+enum VerificationStatus {
+  UNVERIFIED
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum SubscriptionTier {
+  FREE        // High commission, low visibility
+  PRO         // Low commission, hub visibility
+  ENTERPRISE  // Custom deal
+}
+
+model BusinessProfile {
+  id              String             @id @default(uuid())
+  userId          String             @unique
+  user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Official Data
+  fantasyName     String             // Name shown in Marketplace
+  legalName       String             // Razón Social
+  rut             String             @unique // Tax ID (RUT Chileno)
+  
+  // Verification
+  status          VerificationStatus @default(UNVERIFIED)
+  documentsUrl    String[]           // URLs to PDF/Images of SII Carpeta Tributaria
+  adminNotes      String?            // "Rechazado por RUT ilegible"
+  
+  // Membership
+  subscription    SubscriptionTier   @default(FREE)
+  subscriptionEnd DateTime?          // Null = Lifetime/Monthly recurrent logic
+  
+  // Commission Logic overrides
+  commissionRate  Float              @default(0.15) // 15% default for Free
+
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@map("business_profiles")
+}
+
+model Profile {
+  id              String    @id @default(uuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Common Info
+  avatarUrl       String?
+  bio             String?
+  phone           String?
+  
+  // Old Business Info (Migrating to BusinessProfile, keep for legacy or simple display)
+  companyName     String?
+  rut             String?   
+  website         String?
+  
+  // Barista Specific
+  yearsExperience Int?
+  specialties     String[]  // ["Latte Art", "Roasting"]
+  
+  // Metadata flexible para futuro (JSONB)
+  metadata        Json?     // { "instagram": "...", "roasterCapacity": "500kg" }
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("profiles")
+}
+
+model Address {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  alias       String?  // "Casa", "Oficina"
+  street      String
+  number      String
+  city        String
+  region      String
+  country     String   @default("Chile")
+  postalCode  String?
+  
+  isDefault   Boolean  @default(false)
+
+  @@map("addresses")
+}
+
+// --------------------------------------
+// 2. MARKETPLACE DOMAIN
+// --------------------------------------
+
+enum ProductType {
+  COFFEE_BEAN
+  EQUIPMENT
+  MERCHANDISE
+  SUBSCRIPTION
+  DIGITAL_SERVICE // Consulting
+}
+
+model Product {
+  id          String      @id @default(uuid())
+  sellerId    String
+  seller      User        @relation(fields: [sellerId], references: [id])
+  
+  name        String
+  slug        String      @unique
+  description String?     @db.Text
+  price       Decimal     @db.Decimal(10, 2)
+  sku         String?     @unique
+  stock       Int         @default(0)
+  
+  type        ProductType @default(COFFEE_BEAN)
+  images      String[]
+  
+  // Coffee Specifics
+  origin      String?
+  roast       String?     // Light, Medium, Dark
+  process     String?     // Washed, Natural, Honey
+  score       Float?      // SCA Score
+  badges      String[]    // ["Organic", "Fair Trade"]
+  flavorProfile Json?     // { "acidity": 3, "body": 4 }
+
+  isActive    Boolean     @default(true)
+  isB2B       Boolean     @default(false) // If true, visible mostly to Cafes
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  
+  orderItems  OrderItem[]
+  cartItems   CartItem[]
+  reviews     Review[]
+
+  @@map("products")
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  userId    String     @unique
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  updatedAt DateTime   @updatedAt
+  @@map("carts")
+}
+
+model CartItem {
+  id        String  @id @default(uuid())
+  cartId    String
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+
+  @@unique([cartId, productId])
+  @@map("cart_items")
+}
+
+model Order {
+  id            String      @id @default(uuid())
+  customerId    String
+  customer      User        @relation(fields: [customerId], references: [id])
+  
+  totalAmount   Decimal     @db.Decimal(10, 2)
+  status        OrderStatus @default(PENDING)
+  
+  // Payment
+  paymentMethod String      @default("STRIPE")
+  stripeId      String?
+  
+  // Shipping
+  shippingAddress Json?     // Snapshot of address
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  items         OrderItem[]
+
+  @@map("orders")
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
+  
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  
+  quantity  Int
+  price     Decimal  @db.Decimal(10, 2) // Price freeze at purchase time
+
+  @@map("order_items")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  rating    Int      // 1-5
+  comment   String?
+  
+  createdAt DateTime @default(now())
+
+  @@map("reviews")
+}
+
+// --------------------------------------
+// 3. JOB BOARD DOMAIN (Professionalism)
+// --------------------------------------
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  FREELANCE
+  TEMPORARY
+}
+
+model JobPost {
+  id          String   @id @default(uuid())
+  employerId  String
+  employer    User     @relation(fields: [employerId], references: [id])
+  
+  title       String
+  description String   @db.Text
+  location    String
+  type        JobType
+  
+  // Transparency Laws (Sueldo Líquido Obligatorio)
+  salaryMin   Int
+  salaryMax   Int?
+  currency    String   @default("CLP")
+  
+  requirements String[]
+  benefits     String[]
+  
+  isActive    Boolean  @default(true)
+  expiresAt   DateTime
+
+  createdAt   DateTime @default(now())
+  applications JobApplication[]
+
+  @@map("job_posts")
+}
+
+model JobApplication {
+  id          String   @id @default(uuid())
+  jobPostId   String
+  jobPost     JobPost  @relation(fields: [jobPostId], references: [id])
+  
+  applicantId String
+  applicant   User     @relation(fields: [applicantId], references: [id])
+  
+  cvUrl       String?
+  coverLetter String?
+  
+  status      ApplicationStatus @default(APPLIED)
+  
+  createdAt   DateTime @default(now())
+
+  @@unique([jobPostId, applicantId])
+  @@map("job_applications")
+}
+
+enum ApplicationStatus {
+  APPLIED
+  VIEWED
+  INTERVIEWING
+  OFFERED
+  REJECTED
+  HIRED
+}
+
+// --------------------------------------
+// 4. ACADEMY DOMAIN (Education)
+// --------------------------------------
+
+model Course {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  description String   @db.Text
+  instructor  String
+  
+  price       Decimal  @db.Decimal(10, 2)
+  duration    Int      // Minutes
+  level       String   // Beginner, Intermediate, Advanced
+  
+  modules     Json?    // Structure of the course content
+  
+  isActive    Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+  
+  enrollments Enrollment[]
+
+  @@map("courses")
+}
+
+model Enrollment {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id])
+  
+  progress    Int      @default(0) // Percentage
+  completed   Boolean  @default(false)
+  
+  enrolledAt  DateTime @default(now())
+  
+  certificate Certificate?
+
+  @@unique([userId, courseId])
+  @@map("enrollments")
+}
+
+model Certificate {
+  id            String     @id @default(uuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id])
+  enrollmentId  String     @unique
+  enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
+  
+  code          String     @unique // Verify code
+  issuedAt      DateTime   @default(now())
+  pdfUrl        String?
+
+  @@map("certificates")
+}
+
+// --------------------------------------
+// 5. EVENTS & GREEN LOOP
+// --------------------------------------
+
+model Event {
+  id          String   @id @default(uuid())
+  organizerId String
+  organizer   User     @relation(fields: [organizerId], references: [id])
+  
+  title       String
+  date        DateTime
+  location    String
+  capacity    Int
+  
+  description String   @db.Text
+  isVirtual   Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+
+  @@map("events")
+}
+
+model GreenMetric {
+  id          String   @id @default(uuid())
+  businessId  String
+  business    User     @relation(fields: [businessId], references: [id])
+  
+  month       DateTime
+  
+  wasteRecycledKg Float @default(0)
+  waterSavedLitres Float @default(0)
+  carbonOffsetKg  Float @default(0)
+  
+  verified    Boolean  @default(false)
+
+  createdAt   DateTime @default(now())
+
+  @@unique([businessId, month])
+  @@map("green_metrics")
+}

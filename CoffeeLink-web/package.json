@@ -1,0 +1,15 @@
+{
+  "name": "coffeelink-root",
+  "version": "1.0.0",
+  "description": "Root orchestrator for CoffeeLink project",
+  "scripts": {
+    "dev": "cd CoffeeLink-frontend && npm run dev",
+    "start:backend": "cd CoffeeLink-backend && npm run start:dev",
+    "start:chat": "cd CoffeeLink-frontend && npm run start:server",
+    "install:all": "npm install --prefix CoffeeLink-frontend && npm install --prefix CoffeeLink-backend",
+    "build": "cd CoffeeLink-frontend && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

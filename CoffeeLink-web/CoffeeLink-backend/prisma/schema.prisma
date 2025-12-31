@@ -63,6 +63,10 @@ model User {
   events          Event[]
   greenMetrics    GreenMetric[]
 
+  // Security Relations
+  auditLogs       AuditLog[]
+  loginHistory    LoginHistory[]
+
   @@map("users")
 }
 
@@ -451,4 +455,47 @@ model GreenMetric {
 
   @@unique([businessId, month])
   @@map("green_metrics")
+}
+
+// --------------------------------------
+// 6. ENTERPRISE SECURITY & COMPLIANCE
+// --------------------------------------
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  
+  action      String   // CREATE, UPDATE, DELETE, LOGIN, LOGOUT
+  resource    String   // User, Product, Order
+  resourceId  String?  // The ID of the affected item
+  
+  // Details
+  ip          String?
+  userAgent   String?
+  metadata    Json?    // Stores previous vs new values
+  
+  createdAt   DateTime @default(now())
+  
+  @@index([userId])
+  @@index([resource])
+  @@map("audit_logs")
+}
+
+model LoginHistory {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  ip          String
+  userAgent   String?
+  location    String?  // City, Country (via GeoIP in future)
+  
+  status      String   // SUCCESS, FAILED
+  failReason  String?
+  
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@map("login_history")
 }

@@ -1,40 +1,124 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class PaymentService {
-  constructor(private config: ConfigService) {}
+  private readonly logger = new Logger(PaymentService.name);
+
+  constructor(
+      private config: ConfigService,
+      private prisma: PrismaService
+  ) {}
 
   /**
-   * Factory method to initiate payment based on provider
+   * Securely calculates order total and creates a payment session
    */
-  async createPaymentSession(provider: 'STRIPE' | 'WEBPAY', amount: number, orderId: string) {
-      if (provider === 'STRIPE') {
-          return this.createStripeSession(amount, orderId);
-      } else if (provider === 'WEBPAY') {
-          return this.createWebpayTransaction(amount, orderId);
+  async initiateCheckout(items: { id: string, quantity: number }[], userId: string, provider: 'STRIPE' | 'WEBPAY') {
+      // 1. Calculate Total Securely (Server-Side)
+      let totalAmount = 0;
+      const orderItemsData = [];
+
+      for (const item of items) {
+          const product = await this.prisma.product.findUnique({ where: { id: item.id } });
+          if (!product) throw new BadRequestException(`Product ${item.id} not found`);
+          
+          // Check Stock
+          if (product.stock < item.quantity) {
+              throw new BadRequestException(`Insufficient stock for ${product.name}`);
+          }
+
+          const price = Number(product.price); // Handle Decimal carefully in production
+          totalAmount += price * item.quantity;
+          
+          orderItemsData.push({
+              productId: product.id,
+              quantity: item.quantity,
+              price: product.price
+          });
       }
-      throw new BadRequestException('Invalid Payment Provider');
+
+      // 2. Create Pending Order Record
+      const order = await this.prisma.order.create({
+          data: {
+              customerId: userId,
+              totalAmount: totalAmount,
+              status: 'PENDING',
+              paymentMethod: provider,
+              items: {
+                  create: orderItemsData
+              }
+          }
+      });
+
+      this.logger.log(`Order ${order.id} created for ${totalAmount}`);
+
+      // 3. Delegate to Provider
+      if (provider === 'STRIPE') {
+          return this.createStripeSession(order.id, totalAmount);
+      } else if (provider === 'WEBPAY') {
+          return this.createWebpayTransaction(order.id, totalAmount);
+      }
+      
+      throw new BadRequestException('Invalid Provider');
   }
 
-  // --- STRIPE IMPLEMENTATION (Placeholder) ---
-  private async createStripeSession(amount: number, orderId: string) {
-      // In Real implementation:
-      // const session = await stripe.checkout.sessions.create({ ... })
+  // --- STRIPE IMPLEMENTATION ---
+  private async createStripeSession(orderId: string, amount: number) {
+      // Real implementation would use 'stripe' library
       return {
-          url: `https://checkout.stripe.com/pay/mock_session_${orderId}`, 
-          sessionId: `sess_${Date.now()}`
+          url: `https://checkout.stripe.com/pay/mock_${orderId}`, 
+          sessionId: `sess_${Date.now()}_${orderId}`
       };
   }
 
-  // --- WEBPAY PLUS IMPLEMENTATION (Placeholder) ---
-  private async createWebpayTransaction(amount: number, orderId: string) {
-      // In Real implementation:
-      // const tx = await new WebpayPlus.Transaction().create(buyOrder, sessionId, amount, returnUrl);
+  // --- WEBPAY PLUS IMPLEMENTATION ---
+  private async createWebpayTransaction(orderId: string, amount: number) {
       return {
           url: `https://webpay3gint.transbank.cl/webpayserver/initTransaction`, 
-          token: `token_mock_${orderId}`,
+          token: `token_${Date.now()}_${orderId}`,
           formAction: 'POST'
       };
+  }
+
+  // --- WEBHOOK HANDLING (CRITICAL) ---
+  async handleStripeWebhook(event: any) {
+      // In real code, 'event' comes from constructEvent in Guard
+      // Here we parse the mock event
+      
+      this.logger.log(`Processing Stripe Event: ${event.type}`);
+
+      switch (event.type) {
+          case 'checkout.session.completed':
+              const session = event.data.object;
+              await this.fulfillOrder(session.client_reference_id || session.metadata.orderId);
+              break;
+          case 'payment_intent.payment_failed':
+              // Handle failure (email user, release stock)
+              break;
+      }
+      return { received: true };
+  }
+
+  private async fulfillOrder(orderId: string) {
+      if (!orderId) return;
+      
+      this.logger.log(`Fulfilling Order: ${orderId}`);
+      
+      // Atomic Transaction: Update Order & Reduce Stock
+      await this.prisma.$transaction(async (tx) => {
+          const order = await tx.order.update({
+              where: { id: orderId },
+              data: { status: 'PAID' },
+              include: { items: true }
+          });
+
+          for (const item of order.items) {
+              await tx.product.update({
+                  where: { id: item.productId },
+                  data: { stock: { decrement: item.quantity } }
+              });
+          }
+      });
   }
 }

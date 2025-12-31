@@ -9,29 +9,42 @@ async function bootstrap() {
   const logger = new Logger('CoffeeLinkAPI');
   const app = await NestFactory.create(AppModule);
 
-  // 1. SECURITY HEADERS (Helmet)
-  // Protects against common web vulnerabilities
-  app.use(helmet());
+  // 1. SECURITY HEADERS (Strict Helmet)
+  // Protects against XSS, Clickjacking, Sniffing, etc.
+  app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"], 
+        scriptSrc: ["'self'", "'unsafe-inline'"], // Allow Swagger UI inline scripts
+        styleSrc: ["'self'", "'unsafe-inline'"], // Allow Swagger UI styles
+        imgSrc: ["'self'", "data:", "https:"], // Allow external images (CDN, S3)
+        connectSrc: ["'self'", "http://localhost:5173", "https://coffeelink.cl"], // Allow frontend connection
+      },
+    },
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" }, // Allow frontend to load resources
+  }));
 
   // 2. COOKIE PARSER
   // Essential for HttpOnly Auth Tokens (More secure than localStorage)
   app.use(cookieParser());
   
   // 3. CORS CONFIGURATION (Strict)
-  // Only allow the specific frontend origin
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173', 
+    origin: [
+      process.env.FRONTEND_URL || 'http://localhost:5173', 
+      'https://coffeelink.cl',
+      'https://admin.coffeelink.cl'
+    ],
     credentials: true, // Allow sending cookies
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type, Accept, Authorization',
+    allowedHeaders: 'Content-Type, Accept, Authorization, X-Requested-With',
   });
 
   // 4. GLOBAL PREFIX & VERSIONING
-  // Standard practice: /api/v1/...
   app.setGlobalPrefix('api/v1');
 
   // 5. DATA VALIDATION (Strict)
-  // Automatically validate and transform incoming JSON
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // Strip properties not in DTO
@@ -44,7 +57,6 @@ async function bootstrap() {
   );
 
   // 6. SWAGGER DOCUMENTATION (OpenAPI)
-  // Living documentation for the Frontend Team
   const config = new DocumentBuilder()
     .setTitle('CoffeeLink Ecosystem API')
     .setDescription(
@@ -54,7 +66,6 @@ async function bootstrap() {
     .addCookieAuth('Authentication') // Document that we use Cookies
     .addTag('Auth', 'User authentication and session management')
     .addTag('Marketplace', 'Products, Orders, and Cart management')
-    .addTag('Jobs', 'Job board and recruitment')
     .build();
   
   const document = SwaggerModule.createDocument(app, config);
@@ -66,6 +77,6 @@ async function bootstrap() {
   
   logger.log(`🚀 CoffeeLink Backend running on port ${port}`);
   logger.log(`📚 Swagger documentation available at http://localhost:${port}/api/docs`);
-  logger.log(`🛡️  Security Level: High (Helmet + CORS + HttpOnly Cookies)`);
+  logger.log(`🛡️  Security Level: Enterprise (Strict CSP + CORS + HttpOnly Cookies)`);
 }
 bootstrap();

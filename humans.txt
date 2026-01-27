@@ -1,0 +1,15 @@
+/* EQUIPO */
+    Fundador & Tostador Maestro: Sebastián Muñoz Rivera
+    Ubicación: Viña del Mar, Chile
+    
+/* SITIO WEB */
+    Última actualización: 2025/01/27
+    Estándares: HTML5, CSS3, JavaScript ES6+
+    Componentes: Bootstrap 5, Font Awesome 6
+    Software: VS Code, Git
+    
+/* AGRADECIMIENTOS */
+    A los amantes del café en todo el mundo
+    Specialty Coffee Association
+    Productores locales de café chileno
+    Comunidad de desarrolladores open source

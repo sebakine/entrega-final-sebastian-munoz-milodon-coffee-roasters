@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sitemap XML para Milodón Coffee Roasters -->
+<!-- Este archivo ayuda a Google a encontrar todas las páginas del sitio -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Página principal -->
+  <url>
+    <loc>https://milodoncoffee.cl/</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://milodoncoffee.cl/img/primer-plano-de-barista-haciendo-arte-latte.webp</image:loc>
+      <image:title>Barista profesional preparando café de especialidad con arte latte</image:title>
+    </image:image>
+  </url>
+
+  <!-- Página Sobre Nosotros -->
+  <url>
+    <loc>https://milodoncoffee.cl/pages/about.html</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://milodoncoffee.cl/img/coffee-business-concept-closeup-lady-barista-en-delantal-preparando-y-vertiendo-leche-en-una-taza-caliente-mientras-esta-de-pie-en-el-cafe.webp</image:loc>
+      <image:title>Equipo de baristas profesionales Milodón Coffee</image:title>
+    </image:image>
+  </url>
+
+  <!-- Página Blog -->
+  <url>
+    <loc>https://milodoncoffee.cl/pages/blog.html</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Página Contacto -->
+  <url>
+    <loc>https://milodoncoffee.cl/pages/contact.html</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://milodoncoffee.cl/img/cafeteria-movil.webp</image:loc>
+      <image:title>Barra móvil de café para eventos corporativos y matrimonios</image:title>
+    </image:image>
+  </url>
+
+  <!-- Imágenes de productos principales -->
+  <url>
+    <loc>https://milodoncoffee.cl/img/cafe-irish.webp</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://milodoncoffee.cl/img/dos-tazas-de-cafe-expres-debajo-de-la-cafetera.webp</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+</urlset>

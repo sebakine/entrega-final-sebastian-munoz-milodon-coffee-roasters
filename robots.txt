@@ -1,0 +1,35 @@
+# robots.txt para Milodón Coffee Roasters
+# Última actualización: 2025-01-27
+# Este archivo le indica a los buscadores qué páginas pueden indexar
+
+# Permisos para todos los buscadores
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /*/private/
+
+# Ubicación del mapa del sitio para Google
+Sitemap: https://milodoncoffee.cl/sitemap.xml
+
+# Bots específicos permitidos
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /img/
+
+User-agent: Bingbot
+Allow: /
+
+# Bots no deseados bloqueados
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# Tiempo de espera entre peticiones (segundos)
+Crawl-delay: 1
